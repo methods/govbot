@@ -118,68 +118,80 @@ function pushChat(message) {
 }
 
 function showResponse(lexResponse) {
-  handleResponse(lexResponse);
+  worm();
+  setTimeout(function(){
+    handleResponse(lexResponse)
+  }, 3000);
 	messageBoard.scrollTop = messageBoard.scrollHeight;
 }
 
 function handleResponse(lexResponse) {
+  let worm = document.getElementById('worm');
+  worm.remove();
   console.log(lexResponse);
-  var json = JSON.parse(lexResponse.message);
+
   let messageBoard = document.getElementById('messageBoard');
   let bot = document.createElement("p");
   bot.className = "bot";
   messageBoard.appendChild(bot);
   bot.appendChild(document.createTextNode("GovBot"));
-  if (json.messages != null) {
-    if (Array.isArray(json.messages)) {
-      json.messages.forEach(function(message) {
+  if (lexResponse.message[0] === "{") {
+    var json = JSON.parse(lexResponse.message);
+    if (json.messages != null) {
+      if (Array.isArray(json.messages)) {
+        json.messages.forEach(function(message) {
+          let botPara = document.createElement("p");
+          botPara.className = 'bot-message';
+          botPara.appendChild(document.createTextNode(message));
+          messageBoard.appendChild(botPara);
+          botPara.scrollIntoView();
+        })
+      } else {
         let botPara = document.createElement("p");
         botPara.className = 'bot-message';
-        botPara.appendChild(document.createTextNode(message));
+        botPara.appendChild(document.createTextNode(json.messages));
         messageBoard.appendChild(botPara);
-      })
-    } else {
-      let botPara = document.createElement("p");
-      botPara.className = 'bot-message';
-      botPara.appendChild(document.createTextNode(json.messages));
-      messageBoard.appendChild(botPara);
-    };
-  }
-  if (json.response.type === "intent_button_list") {
-    json.response.response.forEach(function(response) {
-      let botPara = document.createElement("p");
-      let bot = document.createElement("p");
-      botPara.className = 'bot-message button-list';
-      botPara.addEventListener('click', function(){pushChat(response)});
-      botPara.appendChild(document.createTextNode(response));
-    	messageBoard.appendChild(botPara);
-    });
-  } else if (json.response.type === "button") {
-    let botPara = document.createElement("a");
-    let bot = document.createElement("p");
-    botPara.className = 'bot-message btn';
-    botPara.addEventListener('click', function(){pushChat(json.response.response.text)});
-    botPara.setAttribute('href', json.response.response.link);
-    botPara.appendChild(document.createTextNode(json.response.response.text));
-    messageBoard.appendChild(botPara);
-  } else if (json.response.type === "redirect") {
-    console.log(lexResponse);
-  } else if (json.response.type === "button_list") {
-    json.response.response.forEach(function(response) {
+        botPara.scrollIntoView();
+      };
+    }
+    if (json.response.type === "intent_button_list") {
+      json.response.response.forEach(function(response) {
+        let botPara = document.createElement("p");
+        let bot = document.createElement("p");
+        botPara.className = 'bot-message button-list';
+        botPara.addEventListener('click', function(){pushChat(response)});
+        botPara.appendChild(document.createTextNode(response));
+      	messageBoard.appendChild(botPara);
+        botPara.scrollIntoView();
+      });
+    } else if (json.response.type === "button") {
       let botPara = document.createElement("a");
       let bot = document.createElement("p");
       botPara.className = 'bot-message btn';
-      botPara.addEventListener('click', function(){pushChat(response.text)});
-      botPara.setAttribute('href', response.link);
-      botPara.appendChild(document.createTextNode(response.text));
+      botPara.addEventListener('click', function(){pushChat(json.response.response.text)});
+      botPara.setAttribute('href', json.response.response.link);
+      botPara.appendChild(document.createTextNode(json.response.response.text));
       messageBoard.appendChild(botPara);
-    });
+      botPara.scrollIntoView();
+    } else if (json.response.type === "redirect") {
+      console.log(lexResponse);
+    } else if (json.response.type === "button_list") {
+      json.response.response.forEach(function(response) {
+        let botPara = document.createElement("a");
+        let bot = document.createElement("p");
+        botPara.className = 'bot-message btn';
+        botPara.addEventListener('click', function(){pushChat(response.text)});
+        botPara.setAttribute('href', response.link);
+        botPara.appendChild(document.createTextNode(response.text));
+        messageBoard.appendChild(botPara);
+        botPara.scrollIntoView();
+      });
+    }
   } else {
     let botPara = document.createElement("p");
-    let bot = document.createElement("p");
-    botPara.className = 'bot-message btn';
-    botPara.setAttribute('href', response.link);
-    botPara.appendChild(document.createTextNode(response.text));
+    botPara.className = 'bot-message';
+    botPara.appendChild(document.createTextNode(lexResponse.message));
     messageBoard.appendChild(botPara);
+    botPara.scrollIntoView();
   }
 };
