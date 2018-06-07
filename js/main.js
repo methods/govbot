@@ -204,10 +204,13 @@ function handleResponse(lexResponse) {
       });
     }
   } else {
-    let botPara = document.createElement("p");
-    botPara.className = 'bot-message';
-    botPara.appendChild(document.createTextNode(lexResponse.message));
-    messageBoard.appendChild(botPara);
-    botPara.scrollIntoView();
+    var messages = lexResponse.message.split(" \\n ");
+    messages.forEach(function(message) {
+      let botPara = document.createElement("p");
+      botPara.className = 'bot-message';
+      botPara.appendChild(document.createTextNode(message));
+      messageBoard.appendChild(botPara);
+      botPara.scrollIntoView();
+    });
   }
 };
