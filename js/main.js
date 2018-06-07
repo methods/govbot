@@ -1,47 +1,20 @@
+/////////////////////
+// Lex initializer //
+/////////////////////
 
-function handleChat(event) {
+// Initialize the Amazon Cognito credentials provider
+AWS.config.region = 'eu-west-1'; // Region
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'eu-west-1:5845afc5-208c-482d-b6c4-475f3751dd4a',
+});
 
-  event.preventDefault();
+var lexruntime = new AWS.LexRuntime();
+var lexUserId = 'chatbot-demo' + Date.now();
+var sessionAttributes = {};
 
-  let message =  document.getElementById("message");
-  let messageBoard = document.getElementById("messageBoard");
-  let messagePara = document.createElement("p");
-  let botPara = document.createElement("p");
-  let userDisplay = document.createElement("p");
-  userDisplay.className = "user"
-  messagePara.className = "user-message";
-  botPara.className = "bot-message";
-  if (message && message.value && message.value.trim().length > 0) {
-    pushChat(message.value);
-    messagePara.appendChild(document.createTextNode(message.value));
-    userDisplay.appendChild(document.createTextNode("You"));
-    messageBoard.appendChild(userDisplay);
-    messageBoard.appendChild(messagePara);
-    message.value = '';
-  };
-
-  messagePara.scrollIntoView();
-  botPara.scrollIntoView();
-};
-
-function worm() {
-  let messageBoard = document.getElementById('messageBoard');
-  messageBoard.insertAdjacentHTML('beforeend', '<p id="worm" class="bot-typing"><span class="dot"></span><span class="dot dot-two"></span><span class="dot dot-three"></span></p>');
-}
-
-function botWelcome(message) {
-  let worm = document.getElementById('worm');
-  worm.remove();
-  let messageBoard = document.getElementById('messageBoard');
-	let botPara = document.createElement("P");
-  let bot = document.createElement("p");
-	botPara.className = 'bot-message';
-  bot.className = "bot";
-  bot.appendChild(document.createTextNode("GovBot"));
-  botPara.appendChild(document.createTextNode(message));
-  messageBoard.appendChild(bot);
-  messageBoard.appendChild(botPara);
-}
+//////////////////////////
+// Chat window handlers //
+//////////////////////////
 
 function openChat() {
   let message =  document.getElementById("message");
@@ -80,17 +53,60 @@ function closeChat() {
   chatWrapper.style.bottom = "0";
 };
 
+////////////////////////////
+// Welcom message handler //
+////////////////////////////
 
-// Initialize the Amazon Cognito credentials provider
+function botWelcome(message) {
+  let worm = document.getElementById('worm');
+  worm.remove();
+  let messageBoard = document.getElementById('messageBoard');
+  let botPara = document.createElement("P");
+  let bot = document.createElement("p");
+  botPara.className = 'bot-message';
+  bot.className = "bot";
+  bot.appendChild(document.createTextNode("GovBot"));
+  botPara.appendChild(document.createTextNode(message));
+  messageBoard.appendChild(bot);
+  messageBoard.appendChild(botPara);
+}
 
-AWS.config.region = 'eu-west-1'; // Region
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'eu-west-1:5845afc5-208c-482d-b6c4-475f3751dd4a',
-});
+//////////////////
+// Loading worm //
+//////////////////
 
-var lexruntime = new AWS.LexRuntime();
-var lexUserId = 'chatbot-demo' + Date.now();
-var sessionAttributes = {};
+function worm() {
+  let messageBoard = document.getElementById('messageBoard');
+  messageBoard.insertAdjacentHTML('beforeend', '<p id="worm" class="bot-typing"><span class="dot"></span><span class="dot dot-two"></span><span class="dot dot-three"></span></p>');
+}
+
+//////////////////////
+// Message handlers //
+//////////////////////
+
+function handleChat(event) {
+  event.preventDefault();
+
+  let message =  document.getElementById("message");
+  let messageBoard = document.getElementById("messageBoard");
+  let messagePara = document.createElement("p");
+  let botPara = document.createElement("p");
+  let userDisplay = document.createElement("p");
+  userDisplay.className = "user"
+  messagePara.className = "user-message";
+  botPara.className = "bot-message";
+  if (message && message.value && message.value.trim().length > 0) {
+    pushChat(message.value);
+    messagePara.appendChild(document.createTextNode(message.value));
+    userDisplay.appendChild(document.createTextNode("You"));
+    messageBoard.appendChild(userDisplay);
+    messageBoard.appendChild(messagePara);
+    message.value = '';
+  };
+
+  messagePara.scrollIntoView();
+  botPara.scrollIntoView();
+};
 
 function pushChat(message) {
 		// send it to the Lex runtime
@@ -174,7 +190,7 @@ function handleResponse(lexResponse) {
       messageBoard.appendChild(botPara);
       botPara.scrollIntoView();
     } else if (json.response.type === "redirect") {
-      console.log(lexResponse);
+      window.location = json.response.response;
     } else if (json.response.type === "button_list") {
       json.response.response.forEach(function(response) {
         let botPara = document.createElement("a");
