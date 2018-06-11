@@ -78,6 +78,7 @@ body {
   font-size: 18px;
   border: solid 1px #000;
   cursor: pointer;
+  margin-left: 5px;
 }
 
 .user-message {
@@ -133,8 +134,8 @@ body {
 .btn {
   display: block;
   float: right;
-  background-color: #3380e6;
-  color: #fff;
+  background-color: #70e089;
+  color: #000;
   border-radius: 15px;
   margin: 5px 10px 5px 10px;
   padding: 8px 10px;
@@ -143,12 +144,14 @@ body {
   min-width: 40%;
   font-size: 18px;
   border: solid 1px #000;
+  border-radius: 0;
   text-decoration: none;
   cursor: pointer;
+  box-shadow: 2px 2px 3px #888;
 }
 
 .btn:hover {
-  background-color: #dcebff;
+  background-color: #04b956;
   color: #000;
 }
 
@@ -210,6 +213,7 @@ body {
   border: solid 1px;
   text-decoration: none;
   float: none;
+  box-shadow: 2px 2px 3px #888;
 }
 
 .button-list:hover {

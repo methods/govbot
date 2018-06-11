@@ -1,4 +1,83 @@
 /////////////////////
+// Generate Chat UI //
+/////////////////////
+
+// chat header
+let chatHeader = document.createElement("div");
+chatHeader.className = "chat-header";
+let hideDiv = document.createElement("div");
+hideDiv.className = "hide"
+let hideText = document.createElement("h4");
+hideText.innerHTML = "v hide";
+hideText.setAttribute("onclick", "toggleChat()");
+let showDiv = document.createElement("div");
+showDiv.className = "show";
+let showText = document.createElement("h4");
+showText.innerHTML= "^ show";
+showText.setAttribute("onclick", "toggleChat()");
+let closeDiv = document.createElement("div");
+closeDiv.className = "close";
+let closeText = document.createElement("h4");
+closeText.innerHTML= "close X";
+closeText.setAttribute("onclick", "closeChat()");
+hideDiv.appendChild(hideText);
+showDiv.appendChild(showText);
+closeDiv.appendChild(closeText);
+chatHeader.appendChild(hideDiv);
+chatHeader.appendChild(showDiv);
+chatHeader.appendChild(closeDiv);
+
+// chat container
+let chatContainer = document.createElement("div");
+chatContainer.className = "chat-container";
+let messageBoard = document.createElement("div");
+messageBoard.id = "messageBoard";
+messageBoard.className = "conversation";
+let form = document.createElement("form");
+form.className = "chat-form";
+form.setAttribute("onsubmit", "handleChat(event)");
+let input = document.createElement("input");
+// Set multiple attributes
+function setAttributes(el, attrs) {
+  for(var key in attrs) {
+    el.setAttribute(key, attrs[key]);
+  }
+}
+setAttributes(input, {
+  "id": "message",
+  "class": "chat-input",
+  "type": "text",
+  "size": "40",
+  "placeholder": "Type your message here"
+});
+let button = document.createElement("button");
+setAttributes(button, {
+  "value": "submit",
+  "class": "send"
+});
+button.innerHTML = "Send";
+form.appendChild(input);
+form.appendChild(button);
+chatContainer.appendChild(messageBoard);
+chatContainer.appendChild(form);
+
+// Chat wrapper
+let chatWrapper = document.createElement("div");
+chatWrapper.id = "chatWrapper"
+chatWrapper.className = "chat-wrapper";
+chatWrapper.appendChild(chatHeader);
+chatWrapper.appendChild(chatContainer);
+
+// Open chat
+let govbotText = document.createElement("h2");
+govbotText.innerHTML = "Click here to speak to GovBot";
+govbotText.setAttribute("onclick", "openChat()");
+
+document.body.appendChild(govbotText);
+document.body.appendChild(chatWrapper);
+
+
+/////////////////////
 // Lex initializer //
 /////////////////////
 

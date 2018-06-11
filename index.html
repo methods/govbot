@@ -8,36 +8,7 @@
     <title>GovBot</title>
   </head>
   <body>
-    <div>
-      <h2 onclick="openChat()">Click here to speak to GovBot</h2>
-      <div id="chatWrapper" class="chat-wrapper">
-        <div class="chat-header">
-          <div class="hide">
-            <h4 onclick="toggleChat()">v hide</h4>
-          </div>
-          <div class="show" >
-            <h4 onclick="toggleChat()">^ show</h4>
-          </div>
-          <div class="close">
-            <h4 onclick="closeChat()">close X</h4>
-          </div>
-        </div>
-        <div class="chat-container">
-          <div id="messageBoard" class="conversation">
 
-          </div>
-          <form class="chat-form" onsubmit="handleChat(event)">
-            <input id="message"
-                   class="chat-input"
-                   type="text"
-                   size="40"
-                   placeholder="Type your message here"
-            />
-            <button value="submit" class="send">Send</button>
-          </form>
-        </div>
-      </div>
-    </div>
     <script src="js/main.js" charset="utf-8"></script>
 
   </body>
