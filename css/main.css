@@ -1,6 +1,6 @@
 
-
 .chat-wrapper {
+  font-family: sans-serif;
   height: 500px;
   width: 400px;
   background-color: #fff;
@@ -21,6 +21,7 @@
 }
 
 .chat-header h4 {
+  font-size: 18px;
   font-weight: lighter;
   margin: 15px 10px;
 }
@@ -60,7 +61,7 @@
   padding: 10px;
 }
 
-.chat-input {
+input[type=text] {
   padding: 8px 0;
   border: solid 1px #000;
   width: 75%;
@@ -120,6 +121,7 @@
   float: right;
   margin-right: 10px;
   margin-top: 0;
+  margin-bottom: 18px;
   padding: 8px 10px;
   clear: both;
   max-width: 60%;
@@ -204,7 +206,7 @@
   margin: 12px 10px 12px 10px;
   padding: 8px 10px;
   clear: both;
-  max-width: 90%;
+  max-width: 100%;
   font-size: 18px;
   text-align: center;
   border: solid 1px;
