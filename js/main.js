@@ -2,6 +2,14 @@
 // Generate Chat UI //
 /////////////////////
 
+// Inject css
+
+let styles = document.createElement("link");
+styles.href = "/Users/michaelnorton/Documents/Projects/chatbot/GovBot/css/main.css";
+styles.type = "text/css";
+styles.rel = "stylesheet";
+document.getElementsByTagName("head")[0].appendChild(styles);
+
 // chat header
 let chatHeader = document.createElement("div");
 chatHeader.className = "chat-header";
