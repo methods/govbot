@@ -50,7 +50,7 @@ function setAttributes(el, attrs) {
   for(var key in attrs) {
     el.setAttribute(key, attrs[key]);
   }
-}
+};
 setAttributes(input, {
   "id": "message",
   "class": "chat-input",
@@ -125,6 +125,7 @@ function openChat() {
   setTimeout(function() {worm()}, 1100);
   setTimeout(function(){botWelcome("What are you looking for?")}, 2000);
   setTimeout(function(){ message.disabled = false}, 2000);
+  govbotText.setAttribute("onclick", "toggleChat()");
 
 };
 
@@ -148,6 +149,7 @@ function toggleChat() {
 function closeChat() {
   let chatWrapper = document.getElementById("chatWrapper")
   chatWrapper.style.display = "none";
+  govbotText.setAttribute("onclick", "openChat()");
 };
 
 ////////////////////////////
