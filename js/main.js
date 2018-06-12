@@ -78,10 +78,13 @@ chatWrapper.appendChild(chatContainer);
 
 // Open chat
 let govbotText = document.createElement("h2");
-govbotText.innerHTML = "Click here to speak to GovBot";
+govbotText.className = "govbot-text";
+govbotText.innerHTML = "Need help? Chat to GovBot";
 govbotText.setAttribute("onclick", "openChat()");
 
+// Add govbot text and chat ui to display
 document.body.appendChild(govbotText);
+document.getElementsByClassName("call-to-action")[0].appendChild(govbotText);
 document.body.appendChild(chatWrapper);
 
 
@@ -110,6 +113,11 @@ function openChat() {
   messageBoard.innerHTML = '';
   let chatWrapper = document.getElementById("chatWrapper");
   chatWrapper.style.display = "block";
+  chatWrapper.style.bottom = "0";
+  let show = document.getElementsByClassName("show")[0];
+  let hide = document.getElementsByClassName("hide")[0];
+  hide.style.display = "inline-block";
+  show.style.display = "none";
   worm();
   botWelcome("Hi, I'm GovBot!");
   setTimeout(function() {worm()}, 100);
@@ -117,27 +125,29 @@ function openChat() {
   setTimeout(function() {worm()}, 1100);
   setTimeout(function(){botWelcome("What are you looking for?")}, 2000);
   setTimeout(function(){ message.disabled = false}, 2000);
+
 };
 
 function toggleChat() {
   let chatWrapper = document.getElementById("chatWrapper");
   let show = document.getElementsByClassName("show")[0];
   let hide = document.getElementsByClassName("hide")[0];
-  if (hide.style.display === "inline-block") {
-    chatWrapper.classList.add("hide-chat");
-    hide.style.display = "none";
-    show.style.display = "inline-block";
-  } else {
+  if (hide.style.display === "none") {
     chatWrapper.classList.remove("hide-chat");
+    chatWrapper.style.bottom = "0"
     hide.style.display = "inline-block";
     show.style.display = "none";
+  } else {
+    chatWrapper.classList.add("hide-chat");
+    chatWrapper.style.bottom = "-460px";
+    hide.style.display = "none";
+    show.style.display = "inline-block";
   }
 };
 
 function closeChat() {
   let chatWrapper = document.getElementById("chatWrapper")
   chatWrapper.style.display = "none";
-  chatWrapper.style.bottom = "0";
 };
 
 ////////////////////////////
