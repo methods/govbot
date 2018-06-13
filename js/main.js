@@ -295,22 +295,31 @@ function handleResponse(lexResponse) {
       let botPara = document.createElement("a");
       let bot = document.createElement("p");
       botPara.className = 'bot-message btn';
-      botPara.addEventListener('click', function(){pushChat(json.response.response.text)});
-
       ////////////////////////////
       // JS ONLY FOR TEST DEMO //
       ///////////////////////////
       if (json.response.response.link === 'https://manage-apprenticeships.service.gov.uk/') {
+        botPara.id = json.response.response.link_id;
         botPara.setAttribute('href', 'manage-apprenticeships.html');
         botPara.addEventListener('click', storeChat);
+        botPara.addEventListener('click', function(){pushChat('next step')});
       } else if (json.response.response.link === 'https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search') {
+        botPara.id = json.response.response.link_id;
         botPara.setAttribute('href', 'find-training.html');
         botPara.addEventListener('click', storeChat);
       } else if (json.response.response.link === 'https://www.gov.uk/take-on-an-apprentice/apprenticeship-agreement') {
+        botPara.id = json.response.response.link_id;
         botPara.setAttribute('href', 'apprenticeship-agreement.html');
         botPara.addEventListener('click', storeChat);
       } else {
+        botPara.id = json.response.response.link_id;
+        botPara.setAttribute('target', '_blank');
         botPara.setAttribute('href', json.response.response.link);
+        if (botPara.id === 'next-step-2') {
+          botPara.addEventListener('click', function(){pushChat('next step two')});
+        } else if (botPara.id === 'next-step-3') {
+          botPara.addEventListener('click', function(){pushChat('next step three')});
+        };
       }
       ///////////////////////////////
       // END JS ONLY FOR TEST DEMO //
@@ -326,21 +335,31 @@ function handleResponse(lexResponse) {
         let botPara = document.createElement("a");
         let bot = document.createElement("p");
         botPara.className = 'bot-message btn';
-        botPara.addEventListener('click', function(){pushChat(response.text)});
         ////////////////////////////
         // JS ONLY FOR TEST DEMO //
         ///////////////////////////
         if (response.link === 'https://manage-apprenticeships.service.gov.uk/') {
+          botPara.id = response.link_id;
           botPara.setAttribute('href', 'manage-apprenticeships.html');
           botPara.addEventListener('click', storeChat);
         } else if (response.link === 'https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search') {
+          botPara.id = response.link_id;
           botPara.setAttribute('href', 'find-training.html');
           botPara.addEventListener('click', storeChat);
         } else if (response.link === 'https://www.gov.uk/take-on-an-apprentice/apprenticeship-agreement') {
+          botPara.id = response.link_id;
           botPara.setAttribute('href', 'apprenticeship-agreement.html');
           botPara.addEventListener('click', storeChat);
+
         } else {
+          botPara.id = response.link_id;
           botPara.setAttribute('href', response.link);
+          botPara.setAttribute('target', '_blank');
+          if (botPara.id === 'next-step-2') {
+            botPara.addEventListener('click', function(){pushChat('next step two')});
+          } else if (botPara.id === 'next-step-3') {
+            botPara.addEventListener('click', function(){pushChat('next step three')});
+          };
         }
         ///////////////////////////////
         // END JS ONLY FOR TEST DEMO //
@@ -382,6 +401,13 @@ window.onload = function () {
     show.style.display = "none";
     let chat = sessionStorage.getItem('chat_history');
     messageBoard.innerHTML = chat;
+    if (messageBoard.lastChild.id === "next-step-1") {
+      pushChat('next step');
+    } else if (messageBoard.lastChild.id === "next-step-2") {
+      pushChat('next step two');
+    } else if (messageBoard.lastChild.id === "next-step-3") {
+      pushChat('next step three');
+    }
     messageBoard.lastChild.scrollIntoView();
   }
 }
