@@ -5,7 +5,7 @@
 // Inject css
 
 let styles = document.createElement("link");
-styles.href = "/Users/michaelnorton/Documents/Projects/chatbot/GovBot/css/main.css";
+styles.href = "./css/main.css";
 styles.type = "text/css";
 styles.rel = "stylesheet";
 document.getElementsByTagName("head")[0].appendChild(styles);
@@ -83,8 +83,19 @@ govbotText.innerHTML = "Need help? Chat to GovBot";
 govbotText.setAttribute("onclick", "openChat()");
 
 // Add govbot text and chat ui to display
+////////////////////////////
+// JS ONLY FOR TEST DEMO //
+///////////////////////////
+// let cta = document.getElementsByClassName("call-to-action")[0];
+// if (document.body.contains(cta)) {
+//   cta.appendChild(govbotText);
+// } else {
+//   document.body.appendChild(govbotText);
+// }
+///////////////////////////////
+// END JS ONLY FOR TEST DEMO //
+//////////////////////////////
 document.body.appendChild(govbotText);
-document.getElementsByClassName("call-to-action")[0].appendChild(govbotText);
 document.body.appendChild(chatWrapper);
 
 
@@ -284,19 +295,50 @@ function handleResponse(lexResponse) {
       let bot = document.createElement("p");
       botPara.className = 'bot-message btn';
       botPara.addEventListener('click', function(){pushChat(json.response.response.text)});
-      botPara.setAttribute('href', json.response.response.link);
+
+      ////////////////////////////
+      // JS ONLY FOR TEST DEMO //
+      ///////////////////////////
+      // if (json.response.response.link === 'https://manage-apprenticeships.service.gov.uk/') {
+      //   botPara.setAttribute('href', 'manage-apprenticeships.html');
+      // } else if (json.response.response.link === 'https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search') {
+      //   botPara.setAttribute('href', 'find-training.html');
+      // } else if (json.response.response.link === 'https://www.gov.uk/take-on-an-apprentice/apprenticeship-agreement') {
+      //   botPara.setAttribute('href', 'apprenticeship-agreement.html');
+      // } else {
+      //   botPara.setAttribute('href', json.response.response.link);
+      // }
+      ///////////////////////////////
+      // END JS ONLY FOR TEST DEMO //
+      //////////////////////////////
+      botPara.setAttribute('href', json.response.response.link)
       botPara.appendChild(document.createTextNode(json.response.response.text));
       messageBoard.appendChild(botPara);
       botPara.scrollIntoView();
     } else if (json.response.type === "redirect") {
-      window.location = json.response.response;
+      window.open(json.response.response, '_blank');
     } else if (json.response.type === "button_list") {
       json.response.response.forEach(function(response) {
         let botPara = document.createElement("a");
         let bot = document.createElement("p");
         botPara.className = 'bot-message btn';
         botPara.addEventListener('click', function(){pushChat(response.text)});
-        botPara.setAttribute('href', response.link);
+        ////////////////////////////
+        // JS ONLY FOR TEST DEMO //
+        ///////////////////////////
+        // if (response.link === 'https://manage-apprenticeships.service.gov.uk/') {
+        //   botPara.setAttribute('href', 'manage-apprenticeships.html');
+        // } else if (response.link === 'https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search') {
+        //   botPara.setAttribute('href', 'find-training.html');
+        // } else if (response.link === 'https://www.gov.uk/take-on-an-apprentice/apprenticeship-agreement') {
+        //   botPara.setAttribute('href', 'apprenticeship-agreement.html');
+        // } else {
+        //   botPara.setAttribute('href', response.link);
+        // }
+        ///////////////////////////////
+        // END JS ONLY FOR TEST DEMO //
+        //////////////////////////////
+        botPara.setAttribute('href', response.link)
         botPara.appendChild(document.createTextNode(response.text));
         messageBoard.appendChild(botPara);
         botPara.scrollIntoView();
@@ -313,3 +355,10 @@ function handleResponse(lexResponse) {
     });
   }
 };
+
+////////////////////////////
+// WINDOW SESSION STORAGE //
+///////////////////////////
+let chat = document.getElementById('messageBoard')
+let html = chat.outerHTML;
+let data = {html: html};
