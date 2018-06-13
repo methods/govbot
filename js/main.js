@@ -5,7 +5,7 @@
 // Inject css
 
 let styles = document.createElement("link");
-styles.href = "./css/main.css";
+styles.href = "/Users/michaelnorton/Documents/Projects/chatbot/GovBot/css/main.css";
 styles.type = "text/css";
 styles.rel = "stylesheet";
 document.getElementsByTagName("head")[0].appendChild(styles);
@@ -86,16 +86,16 @@ govbotText.setAttribute("onclick", "openChat()");
 ////////////////////////////
 // JS ONLY FOR TEST DEMO //
 ///////////////////////////
-// let cta = document.getElementsByClassName("call-to-action")[0];
-// if (document.body.contains(cta)) {
-//   cta.appendChild(govbotText);
-// } else {
-//   document.body.appendChild(govbotText);
-// }
+let cta = document.getElementsByClassName("call-to-action")[0];
+if (document.body.contains(cta)) {
+  cta.appendChild(govbotText);
+} else {
+  document.body.appendChild(govbotText);
+}
 ///////////////////////////////
 // END JS ONLY FOR TEST DEMO //
 //////////////////////////////
-document.body.appendChild(govbotText);
+// document.body.appendChild(govbotText);
 document.body.appendChild(chatWrapper);
 
 
@@ -161,6 +161,7 @@ function closeChat() {
   let chatWrapper = document.getElementById("chatWrapper")
   chatWrapper.style.display = "none";
   govbotText.setAttribute("onclick", "openChat()");
+  sessionStorage.clear();
 };
 
 ////////////////////////////
@@ -299,19 +300,22 @@ function handleResponse(lexResponse) {
       ////////////////////////////
       // JS ONLY FOR TEST DEMO //
       ///////////////////////////
-      // if (json.response.response.link === 'https://manage-apprenticeships.service.gov.uk/') {
-      //   botPara.setAttribute('href', 'manage-apprenticeships.html');
-      // } else if (json.response.response.link === 'https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search') {
-      //   botPara.setAttribute('href', 'find-training.html');
-      // } else if (json.response.response.link === 'https://www.gov.uk/take-on-an-apprentice/apprenticeship-agreement') {
-      //   botPara.setAttribute('href', 'apprenticeship-agreement.html');
-      // } else {
-      //   botPara.setAttribute('href', json.response.response.link);
-      // }
+      if (json.response.response.link === 'https://manage-apprenticeships.service.gov.uk/') {
+        botPara.setAttribute('href', 'manage-apprenticeships.html');
+        botPara.addEventListener('click', storeChat);
+      } else if (json.response.response.link === 'https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search') {
+        botPara.setAttribute('href', 'find-training.html');
+        botPara.addEventListener('click', storeChat);
+      } else if (json.response.response.link === 'https://www.gov.uk/take-on-an-apprentice/apprenticeship-agreement') {
+        botPara.setAttribute('href', 'apprenticeship-agreement.html');
+        botPara.addEventListener('click', storeChat);
+      } else {
+        botPara.setAttribute('href', json.response.response.link);
+      }
       ///////////////////////////////
       // END JS ONLY FOR TEST DEMO //
       //////////////////////////////
-      botPara.setAttribute('href', json.response.response.link)
+      // botPara.setAttribute('href', json.response.response.link)
       botPara.appendChild(document.createTextNode(json.response.response.text));
       messageBoard.appendChild(botPara);
       botPara.scrollIntoView();
@@ -326,19 +330,22 @@ function handleResponse(lexResponse) {
         ////////////////////////////
         // JS ONLY FOR TEST DEMO //
         ///////////////////////////
-        // if (response.link === 'https://manage-apprenticeships.service.gov.uk/') {
-        //   botPara.setAttribute('href', 'manage-apprenticeships.html');
-        // } else if (response.link === 'https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search') {
-        //   botPara.setAttribute('href', 'find-training.html');
-        // } else if (response.link === 'https://www.gov.uk/take-on-an-apprentice/apprenticeship-agreement') {
-        //   botPara.setAttribute('href', 'apprenticeship-agreement.html');
-        // } else {
-        //   botPara.setAttribute('href', response.link);
-        // }
+        if (response.link === 'https://manage-apprenticeships.service.gov.uk/') {
+          botPara.setAttribute('href', 'manage-apprenticeships.html');
+          botPara.addEventListener('click', storeChat);
+        } else if (response.link === 'https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search') {
+          botPara.setAttribute('href', 'find-training.html');
+          botPara.addEventListener('click', storeChat);
+        } else if (response.link === 'https://www.gov.uk/take-on-an-apprentice/apprenticeship-agreement') {
+          botPara.setAttribute('href', 'apprenticeship-agreement.html');
+          botPara.addEventListener('click', storeChat);
+        } else {
+          botPara.setAttribute('href', response.link);
+        }
         ///////////////////////////////
         // END JS ONLY FOR TEST DEMO //
         //////////////////////////////
-        botPara.setAttribute('href', response.link)
+        // botPara.setAttribute('href', response.link)
         botPara.appendChild(document.createTextNode(response.text));
         messageBoard.appendChild(botPara);
         botPara.scrollIntoView();
@@ -359,6 +366,22 @@ function handleResponse(lexResponse) {
 ////////////////////////////
 // WINDOW SESSION STORAGE //
 ///////////////////////////
-let chat = document.getElementById('messageBoard')
-let html = chat.outerHTML;
-let data = {html: html};
+function storeChat() {
+  let chat = document.getElementById('messageBoard');
+  sessionStorage.setItem('chat_history', chat.innerHTML);
+}
+
+window.onload = function () {
+  if (sessionStorage.getItem('chat_history')) {
+    let chatWrapper = document.getElementById("chatWrapper");
+    chatWrapper.style.display = "block";
+    chatWrapper.style.bottom = "0";
+    let show = document.getElementsByClassName("show")[0];
+    let hide = document.getElementsByClassName("hide")[0];
+    hide.style.display = "inline-block";
+    show.style.display = "none";
+    let chat = sessionStorage.getItem('chat_history');
+    messageBoard.innerHTML = chat;
+    messageBoard.lastChild.scrollIntoView();
+  }
+}
