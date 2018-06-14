@@ -410,6 +410,8 @@ window.onload = function () {
       pushChat('next step two');
     } else if (messageBoard.lastChild.id === "next-step-3") {
       pushChat('next step three');
+    } else if (messageBoard.lastChild.id === "next-step-4") {
+      pushChat('next step four');
     }
     messageBoard.lastChild.scrollIntoView();
   }
