@@ -87,8 +87,11 @@ govbotText.setAttribute("onclick", "openChat()");
 // JS ONLY FOR TEST DEMO //
 ///////////////////////////
 let cta = document.getElementsByClassName("call-to-action")[0];
+let col = document.getElementsByClassName("column-two-thirds")[0];
 if (document.body.contains(cta)) {
   cta.appendChild(govbotText);
+} else if (document.body.contains(col)) {
+  col.appendChild(govbotText);
 } else {
   document.body.appendChild(govbotText);
 }
