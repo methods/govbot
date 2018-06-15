@@ -1,0 +1,234 @@
+var DATA = {
+  "apprenticeshipDetails": {
+    "messages": null,
+    "response": {
+      "type": "intent_button_list",
+      "response": [
+        "How much funding can I get?",
+        "What type of apprentice can I take on?",
+        "How do I hire apprentices?",
+        "Find a new training provider",
+        "Rules and timeframes for funding"
+      ]
+    }
+  },
+  "cost": {
+    "messages": [
+      "You must pay your apprentices at least the national minimum wage. You don’t need to pay National Insurance Contributions.",
+      "Government will pay some of your apprenticeship training costs - this depends on whether you pay the apprenticeship levy.",
+      "Do you pay the levy?"
+    ],
+    "response": {
+      "type": "intent_button_list",
+      "response": [
+        "Yes",
+        "No",
+        "Not sure"
+      ]
+    }
+  },
+  "findPartner": {
+    "slots": [
+      {"name": "skillsPartner", "type": "inject"}
+    ],
+    "messages": null,
+    "response": {
+      "type": "redirect",
+      "response": "https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/SearchResults?Keywords={{skillsPartner}}"
+    }
+  },
+  "funding": {
+    "messages": [
+      "The funding you can get depends on whether you pay the apprenticeship levy.",
+      "Do you pay the levy?"
+    ],
+    "response": {
+      "type": "intent_button_list",
+      "response": [
+        "Yes",
+        "No",
+        "Don't know"
+      ]
+    }
+  },
+  "fundingConditions": {
+    "messages": [
+      "There are certain conditions you must meet for the job itself and for the training that the apprentice receives.",
+      "Which would you like to check now?"
+    ],
+    "response": {
+      "type": "button_list",
+      "response": [
+        {"text": "Conditions for the job", "link": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/706505/Employer_rules_v3.pdf"},
+        {"text": "Conditions for the training", "link": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/706505/Employer_rules_v3.pdf"}
+      ]
+    }
+  },
+  "fundingRules": {
+    "messages": [
+      "Okay, I can help with that",
+      "What would you like to know more about?"
+    ],
+    "response": {
+      "type": "intent_button_list",
+      "response": [
+        "What can I spend funding on?",
+        "When do I get funding?",
+        "What conditions do I need to meet?"
+      ]
+    }
+  },
+  "howToHire": {
+    "messages": [
+      "To hire an apprentice you need to follow these 5 steps:"
+    ],
+    "response": {
+      "type": "button_list",
+      "response": [
+        {"text": "Choose an apprenticeship", "link": "https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search"},
+        {"text": "Find a training organisation - they’ll advise your vacancy for you and find candidates", "link": "https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/Search"},
+        {"text": "Choose a candidate", "link": ""},
+        {"text": "Register on the apprenticeship service", "link": "https://manage-apprenticeships.service.gov.uk/"},
+        {"text": "Make a contract and an agreement with your training provider", "link": "https://www.gov.uk/take-on-an-apprentice/apprenticeship-agreement"}
+      ]
+    }
+  },
+  "no_Levy": {
+    "slots": [
+      {"name": "staffSize", "type": "switch"}
+    ],
+    "yes": {
+      "messages": [
+        "Government will pay 100% of your apprenticeship training costs.",
+        "You’ll just need to pay your apprentices at least National Minimum Wage - you don’t need to pay their National Insurance Contributions.",
+        "You can access government funding via the apprenticeship service."
+      ],
+      "response": {
+        "type": "button",
+        "response": {"text": "Go to the apprenticeship service", "link": "https://manage-apprenticeships.service.gov.uk/"}
+      }
+    },
+    "no": {
+      "messages": [
+        "You’ll just need to pay 10% of your apprenticeship training costs. Government will pay 90%.",
+        "You’ll then just need to pay your apprentices at least National Minimum Wage - you don’t need to pay their National Insurance Contributions.",
+        "You can access government funding via the apprenticeship service."
+      ],
+      "response": {
+        "type": "button",
+        "response": {"text": "Go to the apprenticeship service", "link": "https://manage-apprenticeships.service.gov.uk/"}
+      }
+    }
+  },
+  "rightForBusiness": {
+    "messages": [
+      "Good question. Apprenticeships can fill your skills gaps, reduce recruitment costs and increase staff retention rates.",
+      "What do you want to know more about?"
+    ],
+    "response": {
+      "type": "intent_button_list",
+      "response": [
+        "How much it'll cost me?",
+        "How much funding can I get?",
+        "What type of apprentice can I take on?",
+        "How do I hire apprentices?"
+      ]
+    }
+  },
+  "spendFunding": {
+    "messages": null,
+    "response": {
+      "type": "button",
+      "response": {"text": "What can I spend funding on?", "link": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/706505/Employer_rules_v3.pdf"}
+    }
+  },
+  "timingFunding": {
+    "messages": null,
+    "response": {
+      "type": "button",
+      "response": {"text": "When do I get funding?", "link": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/706505/Employer_rules_v3.pdf"}
+    }
+  },
+  "type": {
+    "slots": [
+      {"name": "skillsType", "type": "inject"}
+    ],
+    "messages": null,
+    "response": {
+      "type": "redirect",
+      "response": "https://findapprenticeshiptraining.sfa.bis.gov.uk/Apprenticeship/SearchResults?Keywords{{skillsPartner}}"
+    }
+  },
+  "unknown_Levy": {
+    "slots": [
+      {"name": "staffSize", "type": "switch"}
+    ],
+    "yes": {
+      "messages": [
+        "Gov pay 100%."
+      ],
+      "response": {
+        "type": "button",
+        "response": "URL = "
+      }
+    },
+    "no": {
+      "messages": [
+        "Gov pay 90%."
+      ],
+      "response": {
+        "type": "button",
+        "response": "URL = "
+      }
+    }
+  },
+  "yes_Levy": {
+    "messages": "The cost of apprenticeship training will come out of our levy funds. You access these funds via the apprenticeship service.",
+    "response": {
+      "type": "button",
+      "response": {"text": "Go to the apprenticeship service", "link": "https://manage-apprenticeships.service.gov.uk/"}
+    }
+  }
+};
+
+
+function close(sessionAttributes, fulfillmentState, message) {
+    return {
+        sessionAttributes,
+        dialogAction: {
+            type: 'Close',
+            fulfillmentState,
+            message,
+        },
+    };
+};
+
+function selectResponse(intent, event) {
+  var narrowingResponse = intent;
+  var injectList = [];
+  for (var i = 0; i < intent.slots.length; i++) {
+    if (intent.slots[i].type !== 'inject') {
+      narrowingResponse = narrowingResponse[event.currentIntent.slots[intent.slots[i].name].toLowerCase()];
+    } else {
+      injectList.push(intent.slots[i]);
+    }
+    if ((i + 1 === intent.slots.length)) {
+      for (var j = 0; j < injectList.length; j++) {
+        narrowingResponse.response.response = narrowingResponse.response
+          .response.replace('{{' + injectList[j].name + '}}', event.currentIntent.slots[injectList[j].name].toLowerCase())
+      }
+    }
+  }
+  return JSON.stringify(narrowingResponse);
+}
+
+exports.handler = (event, context, callback) => {
+    var intentData = DATA[event.currentIntent.name];
+    if (intentData.slots) {
+      callback(null, close(event.sessionAttributes, 'Fulfilled',
+      {'contentType': 'PlainText', 'content': selectResponse(intentData, event)}));
+    } else {
+      callback(null, close(event.sessionAttributes, 'Fulfilled',
+      {'contentType': 'PlainText', 'content': JSON.stringify(intentData)}));  
+    }
+};
