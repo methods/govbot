@@ -7,7 +7,6 @@
 
 .chat-wrapper {
   font-family: sans-serif;
-  height: 500px;
   width: 400px;
   background-color: #fff;
   border: solid 2px #000;
@@ -38,14 +37,17 @@
 	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
 }
 
-.hide {
+#displayToggle {
   display: inline-block;
   cursor: pointer;
 }
 
+.hide {
+  display: block;
+}
+
 .show {
   display: none;
-  cursor: pointer;
 }
 
 .close {
@@ -54,7 +56,12 @@
   cursor: pointer;
 }
 
+.chat-container {
+  height: 460px;
+}
+
 .conversation {
+  padding-top: 10px;
   height: 365px;
   overflow: scroll;
 }
